@@ -12,23 +12,13 @@ class MyFrame(Frame):
 
         framemodechoice = Frame(self)
         lblModeChoice = Label(framemodechoice, text="Step 0. Select a mode for convert")
-        lblModeChoice.pack(padx=10)
+        lblModeChoice.pack(padx=10, side=LEFT)
 
-        CheckVar1 = IntVar()
-        CheckVar2 = IntVar()
-
-        c1 = Checkbutton(root, text="", variable=CheckVar1)
-
-        c2 = Checkbutton(root, text="HWP2XLSX", variable=CheckVar2)
-
-        c1.pack()
-
-        c2.pack()
-        listbox.pack(padx=10)
+        comboModeChoice = Combobox(framemodechoice, textvariable=str)
+        comboModeChoice['values'] = ('KOR2ENG', 'HWP2XLSX')
+        comboModeChoice.pack(padx=10)
 
         framemodechoice.pack(fill=X)
-
-
 
         # 변환할 파일 설정
         framelb1 = Frame(self)
