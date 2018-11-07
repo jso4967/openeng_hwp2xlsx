@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter.ttk import *
+import controller
 
 
 class MyFrame(Frame):
@@ -23,7 +24,8 @@ class MyFrame(Frame):
 
         comboModeChoice = Combobox(framemodechoice, textvariable=str)
         comboModeChoice['values'] = ('KOR2ENG', 'HWP2XLSX')
-        comboModeChoice.pack(padx=10, side=RIGHT, pady=10)
+        comboModeChoice.current(0)
+        comboModeChoice.pack(padx=10, side=RIGHT)
 
         framemodechoice.pack(fill=X, pady=(0,30))
 
@@ -37,7 +39,7 @@ class MyFrame(Frame):
         entryFileToConvert = Entry(framechoice1)
         entryFileToConvert.pack(fill=X, side=LEFT, padx=10, expand=True)
 
-        btnBrowse1 = Button(framechoice1, text="Browse")
+        btnBrowse1 = Button(framechoice1, text="Browse", command=lambda:controller.button_pressed(self, entryFileToConvert, "FileBrowse"))
         btnBrowse1.pack(fill=X, side=RIGHT, padx=10)
         framechoice1.pack(fill=X, pady=(0,30))
 
@@ -51,7 +53,7 @@ class MyFrame(Frame):
         entryFolderToSave = Entry(framechoice2)
         entryFolderToSave.pack(fill=X, side=LEFT, padx=10, expand=True)
 
-        btnBrowse2 = Button(framechoice2, text="Browse")
+        btnBrowse2 = Button(framechoice2, text="Browse", command=lambda:controller.button_pressed(self, entryFolderToSave, "FolderBrowse"))
         btnBrowse2.pack(fill=X, side=RIGHT, padx=10)
         framechoice2.pack(fill=X, pady=(0, 30))
 
@@ -63,16 +65,16 @@ class MyFrame(Frame):
 
         # 변환
         framecontrol = Frame(self)
-        btnConvert = Button(framecontrol, text="변환")
+        btnConvert = Button(framecontrol, text="Convert", command=lambda:controller.button_pressed(self, btnConvert, "Convert"))
         btnConvert.pack(side=RIGHT, padx=10)
-        btnCancel = Button(framecontrol, text="취소")
+        btnCancel = Button(framecontrol, text="Cancel", command=lambda:controller.button_pressed(self, btnCancel, "Cancel"))
         btnCancel.pack(side=RIGHT, padx=10)
         framecontrol.pack(fill=X, pady=20)
 
 
 def main():
     root = Tk()
-    root.geometry("400x360+1200+100")
+    root.geometry("400x350+1200+100")
     root.resizable(False, False)
     app = MyFrame(root)
     root.mainloop()
