@@ -10,43 +10,50 @@ class MyFrame(Frame):
         self.master.title("HWPConverter")
         self.pack(fill=BOTH, expand=True)
 
+        #TODOLIST : 사진 처럼 다듬기
+        photo = PhotoImage(file="left_logo.png")
+        lbpng = Label(self, image=photo)
+        lbpng.image = photo
+        lbpng.pack()
+
+        # 모드 선택
         framemodechoice = Frame(self)
         lblModeChoice = Label(framemodechoice, text="Step 0. Select a mode for convert")
         lblModeChoice.pack(padx=10, side=LEFT)
 
         comboModeChoice = Combobox(framemodechoice, textvariable=str)
         comboModeChoice['values'] = ('KOR2ENG', 'HWP2XLSX')
-        comboModeChoice.pack(padx=10)
+        comboModeChoice.pack(padx=10, side=RIGHT, pady=10)
 
-        framemodechoice.pack(fill=X)
+        framemodechoice.pack(fill=X, pady=(0,30))
 
         # 변환할 파일 설정
         framelb1 = Frame(self)
         lblFileToConvert = Label(framelb1, text="Step 1. Select a file to convert from your Disk", width=100)
-        lblFileToConvert.pack(padx=10)
+        lblFileToConvert.pack(padx=10, side=LEFT)
         framelb1.pack(fill=X)
 
-        framechoice1 = Frame(framelb1)
+        framechoice1 = Frame(self)
         entryFileToConvert = Entry(framechoice1)
         entryFileToConvert.pack(fill=X, side=LEFT, padx=10, expand=True)
 
         btnBrowse1 = Button(framechoice1, text="Browse")
         btnBrowse1.pack(fill=X, side=RIGHT, padx=10)
-        framechoice1.pack(fill=X)
+        framechoice1.pack(fill=X, pady=(0,30))
 
         # 저장 폴더 설정
         framelb2 = Frame(self)
         lblFolderToSave = Label(framelb2, text="Step 2. Select a directory to save", width=100)
-        lblFolderToSave.pack(padx=10)
-        framelb2.pack(fill=X, pady=30)
+        lblFolderToSave.pack(padx=10, side=LEFT)
+        framelb2.pack(fill=X)
 
-        framechoice2 = Frame(framelb2)
+        framechoice2 = Frame(self)
         entryFolderToSave = Entry(framechoice2)
         entryFolderToSave.pack(fill=X, side=LEFT, padx=10, expand=True)
 
         btnBrowse2 = Button(framechoice2, text="Browse")
-        btnBrowse2.pack(fill=X, side=LEFT, padx=10)
-        framechoice2.pack(fill=X)
+        btnBrowse2.pack(fill=X, side=RIGHT, padx=10)
+        framechoice2.pack(fill=X, pady=(0, 30))
 
         # 상태바
         frameprogressbar = Frame(self)
@@ -65,7 +72,8 @@ class MyFrame(Frame):
 
 def main():
     root = Tk()
-    root.minsize(400, 250)
+    root.geometry("400x360+1200+100")
+    root.resizable(False, False)
     app = MyFrame(root)
     root.mainloop()
 
