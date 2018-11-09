@@ -67,7 +67,7 @@ class MyFrame(Frame):
         framecontrol = Frame(self)
         btnConvert = Button(framecontrol, text="Convert", command=lambda:controller.button_pressed(self, btnConvert, "Convert"))
         btnConvert.pack(side=RIGHT, padx=10)
-        btnCancel = Button(framecontrol, text="Cancel", command=lambda:controller.button_pressed(self, btnCancel, "Cancel"))
+        btnCancel = Button(framecontrol, text="Cancel", command=lambda:Frame.quit(self))
         btnCancel.pack(side=RIGHT, padx=10)
         framecontrol.pack(fill=X, pady=20)
 
