@@ -1,20 +1,13 @@
-#-*-coding: utf-8 -*-
+#-*-coding:utf-8
 from pywinauto import application
 
-def getWindow(app, windowText):
-    ws = app.windows()
-    for w in ws:
-        if w.WindowText() == windowText:
-            return w
-        return None
-
-app = application.Application().start('''C:\Temp\HncTest\Hwp80\Hwp.exe''')
-app.connect(path="C:\Temp\HncTest\Hwp80\Hwp.exe")
-ws = app.windows()
-for w in ws:
-
-memo = getWindow(app, u"빈 문서 1 - 한컴오피스 한글 ")
-if memo:
-    print("test succeeded")
+app = application.Application(backend="uia").start(r"C:\Temp\HncTest\Hwp80\Hwp.exe")
+print(app)
+if app.top_window().window_text():
+    print(app.top_window().window_text())
 else:
-    print("test Failed")
+    print("error")
+
+dlg = app.window(title='Frame')
+print(dlg.window_text())
+dlg.print_control_identifiers()
