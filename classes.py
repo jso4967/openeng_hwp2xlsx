@@ -9,6 +9,10 @@ class Problem:
         self.__answer = answer
         self.__choices = choices
 
+    def addsentence(self, eng_sentence, kor_sentence, first_char=None):
+        self.sentences.append(Sentence(eng_sentence, kor_sentence, first_char))
+
+
 class Sentence:
 
     phrases = []
@@ -17,6 +21,9 @@ class Sentence:
         self.__eng_sentence = eng_sentence
         self.__kor_sentence = kor_sentence
         self.__first_char = first_char
+
+    def addphrase(self, eng_phrase, kor_phrase, doc=None):
+        self.phrases.append(eng_phrase, kor_phrase, doc)
 
 class Phrase:
 
