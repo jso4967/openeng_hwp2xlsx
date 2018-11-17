@@ -17,17 +17,20 @@ class Sentence:
 
     phrases = []
 
-    def __init__(self, eng_sentence, kor_sentence, first_char=None):
+    def __init__(self, eng_sentence, kor_sentence, gender=None):
         self.__eng_sentence = eng_sentence
         self.__kor_sentence = kor_sentence
-        self.__first_char = first_char
+        self.__gender = gender
 
     def addphrase(self, eng_phrase, kor_phrase, doc=None):
-        self.phrases.append(eng_phrase, kor_phrase, doc)
+        self.phrases.append(Phrase(eng_phrase, kor_phrase, doc))
 
 class Phrase:
 
     def __init__(self, eng_phrase, kor_phrase, doc=None):
         self.__eng_phrase = eng_phrase
-        self.__kor_phare = kor_phrase
+        self.__kor_phrase = kor_phrase
         self.__doc = doc
+
+    def getall(self):
+        return (self.__eng_phrase, self.__kor_phrase)
