@@ -2,7 +2,8 @@ from docx import Document
 import classes
 import re
 
-document = Document('''.\data\[docx]영치프로그램 예문.docx''')
+# TODO : main 함수로 정의 해야 함
+document = Document('''.\data\영치프로그램 예문.docx''')
 lines = document.paragraphs
 regex_problem_number = re.compile(r'^\d.')
 regex_gender = re.compile("[WM]:")
@@ -27,11 +28,6 @@ for line in lines:
         current_problem_number = int(text.strip()[0]) - 1
         current_option_number = 0
         current_problem_set.append(classes.Problem(current_problem_number))  # 문제번호가 적힌 문장에서 항상 첫번째 글자는 숫자( = 문제번호) 여야 한다.
-
-        if current_problem_set[current_problem_number].sentences:
-            print("현재 문제번호 : {0} / 현재 선지번호 : {1}", current_problem_number, current_option_number)
-            for entry in current_problem_set[current_problem_number].sentences[current_option_number].phrases:
-                print(entry.getall())
 
         continue
 
@@ -98,14 +94,17 @@ for line in lines:
 
         print(current_kor_phrase)
         #  해당 문제에 문장 추가
-        print(current_problem_number)
         current_problem_set[current_problem_number].addsentence(current_eng_sentence, current_kor_sentence, current_gender)
 
         if current_eng_phrase.__len__() == current_kor_phrase.__len__():
             print("++++++++++++++++++++++++++동일++++++++++++++++++++++++++")
             #  해당 문장에 구 추가
-            current_problem_set[current_problem_number].sentences[current_option_number].addphrase(current_eng_phrase, current_kor_phrase, None)
+            (current_problem_set[current_problem_number].getsentences())[current_option_number].addphrase(current_eng_phrase, current_kor_phrase, None)
 
+        if current_problem_set[current_problem_number].getsentences():
+            print("현재 문제번호 : " + str(current_problem_number) + " 현재 선지번호 : " + str(current_option_number))
+            for entry in (current_problem_set[current_problem_number].getsentences())[current_option_number].getphrases():
+                print(entry.getall())
         continue
 
     # 첫 문자가 영어인 경우

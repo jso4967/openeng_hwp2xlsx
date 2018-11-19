@@ -12,7 +12,7 @@ class MyFrame(Frame):
         self.pack(fill=BOTH, expand=True)
 
         #TODOLIST : 사진 처럼 다듬기
-        photo = PhotoImage(file="left_logo.png")
+        photo = PhotoImage(file="./pictures/left_logo.png")
         lbpng = Label(self, image=photo)
         lbpng.image = photo
         lbpng.pack()
@@ -20,12 +20,12 @@ class MyFrame(Frame):
         # 모드 선택
         framemodechoice = Frame(self)
         lblModeChoice = Label(framemodechoice, text="Step 0. Select a mode for convert")
-        lblModeChoice.pack(padx=10, side=LEFT)
+        lblModeChoice.pack(padx=10, side=LEFT, pady=10)
 
         comboModeChoice = Combobox(framemodechoice, textvariable=str)
         comboModeChoice['values'] = ('KOR2ENG', 'HWP2XLSX')
         comboModeChoice.current(0)
-        comboModeChoice.pack(padx=10, side=RIGHT)
+        comboModeChoice.pack(padx=10, side=RIGHT, pady=10)
 
         framemodechoice.pack(fill=X, pady=(0,30))
 
@@ -39,7 +39,7 @@ class MyFrame(Frame):
         entryFileToConvert = Entry(framechoice1)
         entryFileToConvert.pack(fill=X, side=LEFT, padx=10, expand=True)
 
-        btnBrowse1 = Button(framechoice1, text="Browse", command=lambda:controller.button_pressed(self, entryFileToConvert, "FileBrowse"))
+        btnBrowse1 = Button(framechoice1, text="Browse", command=lambda:controller.button_pressed(self, entryFileToConvert, "FileBrowse", comboModeChoice.get()))
         btnBrowse1.pack(fill=X, side=RIGHT, padx=10)
         framechoice1.pack(fill=X, pady=(0,30))
 
@@ -53,7 +53,7 @@ class MyFrame(Frame):
         entryFolderToSave = Entry(framechoice2)
         entryFolderToSave.pack(fill=X, side=LEFT, padx=10, expand=True)
 
-        btnBrowse2 = Button(framechoice2, text="Browse", command=lambda:controller.button_pressed(self, entryFolderToSave, "FolderBrowse"))
+        btnBrowse2 = Button(framechoice2, text="Browse", command=lambda:controller.button_pressed(self, entryFolderToSave, "FolderBrowse", comboModeChoice.get()))
         btnBrowse2.pack(fill=X, side=RIGHT, padx=10)
         framechoice2.pack(fill=X, pady=(0, 30))
 
@@ -65,7 +65,7 @@ class MyFrame(Frame):
 
         # 변환
         framecontrol = Frame(self)
-        btnConvert = Button(framecontrol, text="Convert", command=lambda:controller.button_pressed(self, btnConvert, "Convert"))
+        btnConvert = Button(framecontrol, text="Convert", command=lambda:controller.button_pressed(self, entryFileToConvert, "Convert", comboModeChoice.get()))
         btnConvert.pack(side=RIGHT, padx=10)
         btnCancel = Button(framecontrol, text="Cancel", command=lambda:Frame.quit(self))
         btnCancel.pack(side=RIGHT, padx=10)

@@ -1,10 +1,10 @@
 import view
 from tkinter import filedialog
 import tkinter as tk
-import model
+import model, model_core
 # 라벨의 값을 마음대로 제어 할 수 있는 방안을 찾아야 함.
 
-def button_pressed(self, targetToUpdate, value):
+def button_pressed(self, targetToUpdate, value, mode):
     print(value, "pressed")
     if value == "FileBrowse":
         fileName = filedialog.askopenfilename()
@@ -17,4 +17,10 @@ def button_pressed(self, targetToUpdate, value):
         targetToUpdate.insert("end", dirName)
 
     elif value == "Convert":
-        model.main()
+        if mode == "KOR2ENG":
+            path = targetToUpdate.get()
+            model.setfilepath(path)
+            model.convertfile()
+
+        else:
+            pass
