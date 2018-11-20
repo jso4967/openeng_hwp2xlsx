@@ -29,6 +29,13 @@ class Sentence:
     def getphrases(self):
         return self.__phrases
 
+    def edit_phrase(self, eng_phrase, kor_phrase, doc=None):
+        self.__phrases[0].add_phrase_at_end(eng_phrase, kor_phrase)
+
+    def edit_sentence(self, eng_sentence, kor_sentence):
+        self.__eng_sentence += eng_sentence
+        self.__kor_sentence += kor_sentence
+
 class Phrase:
 
     def __init__(self, eng_phrase, kor_phrase, doc=None):
@@ -38,3 +45,13 @@ class Phrase:
 
     def getall(self):
         return (self.__eng_phrase, self.__kor_phrase)
+
+    def add_phrase_at_end(self, eng_phrase, kor_phrase):
+        self.__eng_phrase += eng_phrase
+        self.__kor_phrase += kor_phrase
+
+    def get_eng_phrase(self):
+        return self.__eng_phrase
+
+    def get_kor_phrase(self):
+        return self.__kor_phrase

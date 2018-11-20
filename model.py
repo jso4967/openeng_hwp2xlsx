@@ -3,14 +3,10 @@ from datetime import datetime
 import time
 import ctypes
 
-
-hwp = r'C:\Users\IS119\Documents\GitHub_JeonSeOk\openeng_hwp2xlsx\data\영치프로그램 예문.hwp'
-def setfilepath(path):
-    hwp = path
-
-def convertfile():
+def convertfile(path):
+    __path = path
     #  파일 세팅
-    ctypes.windll.Shell32.ShellExecuteW(None, 'open', hwp, None, None, 1)
+    ctypes.windll.Shell32.ShellExecuteW(None, 'open', __path, None, None, 1)
     print(1, datetime.now())
     time.sleep(3)
 
@@ -43,6 +39,7 @@ def convertfile():
     # 열었던 프로그램 종료
     pyautogui.hotkey('alt', 'f4')
 
+    time.sleep(3)
     print("Convert Succeeded")
 
 
