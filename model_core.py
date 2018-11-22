@@ -9,7 +9,6 @@ def convert_for_kor2eng(path = None):
     document = Document(path)
     lines = document.paragraphs
 
-    regex_problem_number = re.compile(r'^\d.')
     current_gender = None
     current_eng_sentence = ""
     current_kor_sentence = ""
@@ -21,14 +20,14 @@ def convert_for_kor2eng(path = None):
 
     for line in lines:
         text = line.text
-
+        text = text.strip()
         # 첫 문자가 문제 번호인 경우
-        if regex_problem_number.search(text):
+        if (text[:text.find('.')]).isdecimal():
             print("첫 문자가 문제 번호인 경우", text)
             current_gender = None
             current_eng_phrase = []
             current_kor_phrase = []
-            current_problem_number = int(text.strip()[0]) - 1
+            current_problem_number = int(text[:text.find('.')]) - 1
             current_option_number = 0
             current_problem_set.append(
                 classes.Problem(current_problem_number))  # 문제번호가 적힌 문장에서 항상 첫번째 글자는 숫자( = 문제번호) 여야 한다.
@@ -40,7 +39,7 @@ def convert_for_kor2eng(path = None):
         message = ""
         for i in range(30):  # 최대 33개 까지 밖에 안되는 듯
             # 헥스코드를 이용하여 선지번호인지 체크
-            is_option_number = text.find(bytes.fromhex(str(hex(option_number)[2:])).decode('utf-8'))
+            is_option_number = text[:2].find(bytes.fromhex(str(hex(option_number)[2:])).decode('utf-8'))
             if is_option_number >= 0:
                 message = "첫 문자가 선지 번호인 경우  " + text
                 current_option_number = i
@@ -182,25 +181,27 @@ def make_string(problem_set):
             # print(bytes.fromhex(str(hex(option_number)[2:])).decode('utf-8'))
             option_number += 1
 
-            phrase = sentence.getphrases()[0]
-            eng_phrase = phrase.get_eng_phrase()
-            kor_phrase = phrase.get_kor_phrase()
-            if len(eng_phrase) == len(kor_phrase):
-                index = len(eng_phrase)
-                flag = 1
-                substituted_sentence = ""
+            if sentence.getphrases():
+                phrase = sentence.getphrases()[0]
+                eng_phrase = phrase.get_eng_phrase()
+                kor_phrase = phrase.get_kor_phrase()
+                if len(eng_phrase) == len(kor_phrase):
+                    index = len(eng_phrase)
+                    flag = 1
+                    substituted_sentence = ""
 
-                for index in range(index):
-                    if eng_phrase[index] == "":
-                        continue
-                    if flag == 1:
-                        substituted_sentence += (eng_phrase[index] + " ")
-                        flag = 0
-                    else:
-                        substituted_sentence += (kor_phrase[index] + " ")
-                        flag = 1
+                    for index in range(index):
+                        if eng_phrase[index] == "":
+                            continue
+                        if flag == 1:
+                            substituted_sentence += (eng_phrase[index] + " ")
+                            flag = 0
+                        else:
+                            substituted_sentence += (kor_phrase[index] + " ")
+                            flag = 1
 
-                data += substituted_sentence + "\n"
+                    data += substituted_sentence + "\n"
+
                 # print(substituted_sentence)
         option_number = 0xe291a0
 
@@ -214,24 +215,49 @@ def make_string(problem_set):
             data += bytes.fromhex(str(hex(option_number)[2:])).decode('utf-8') + "\n"
             # print(bytes.fromhex(str(hex(option_number)[2:])).decode('utf-8'))
             option_number += 1
+            if sentence.getphrases():
+                phrase = sentence.getphrases()[0]
+                eng_phrase = phrase.get_eng_phrase()
+                kor_phrase = phrase.get_kor_phrase()
+                if len(eng_phrase) == len(kor_phrase):
+                    index = len(eng_phrase)
+                    flag = 1
+                    substituted_sentence = ""
 
-            phrase = sentence.getphrases()[0]
-            eng_phrase = phrase.get_eng_phrase()
-            kor_phrase = phrase.get_kor_phrase()
-            if len(eng_phrase) == len(kor_phrase):
-                index = len(eng_phrase)
-                flag = 1
-                substituted_sentence = ""
+                    for index in range(index):
+                        if flag == 1:
+                            substituted_sentence += (kor_phrase[index] + " ")
+                            flag = 0
+                        else:
+                            substituted_sentence += (eng_phrase[index] + " ")
+                            flag = 1
+                    data += substituted_sentence + "\n"
 
-                for index in range(index):
-                    if flag == 1:
-                        substituted_sentence += (kor_phrase[index] + " ")
-                        flag = 0
-                    else:
-                        substituted_sentence += (eng_phrase[index] + " ")
-                        flag = 1
-                data += substituted_sentence + "\n"
                 # print(substituted_sentence)
         option_number = 0xe291a0
 
     return data
+
+def make_final_file(data, path):
+    # 파일 세팅
+    path = path[:path.find('.')] + "영환치환버전.docx"
+    document = Document()
+
+    document.add_paragraph(data)
+    document.save(path)
+    # ctypes.windll.Shell32.ShellExecuteW(None, 'open', __path, None, None, 1)
+    # time.sleep(3)
+    #
+    # # 파일 새로 만들기
+    # pyautogui.hotkey('alt', 'n')
+    # pyautogui.typewrite(data)
+    #
+    # # 파일 저장
+    # pyautogui.hotkey('alt', 's')
+    # __path = __path[:__path.find('.')+1] + '영한치환버전' + '.hwp'
+    # pyautogui.typewrite(__path)
+    # pyautogui.hotkey('alt', 'd')
+    #
+    # # 프로그램 종료
+    # pyautogui.hotkey('alt', 'f4')
+    # time.sleep(3)

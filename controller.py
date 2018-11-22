@@ -2,6 +2,7 @@ import view
 from tkinter import filedialog
 import tkinter as tk
 import model, model_core
+
 # 라벨의 값을 마음대로 제어 할 수 있는 방안을 찾아야 함.
 
 def button_pressed(self, targetToUpdate, value, mode):
@@ -32,81 +33,8 @@ def button_pressed(self, targetToUpdate, value, mode):
             # 파일에 데이터 입력
             data = model_core.make_string(problem_set)
             print(data)
+            model_core.make_final_file(data, path)
 
-            # data = ""
-            # problem_number = 1
-            # for problem in problem_set:
-            #
-            #     # 문제 번호 출력
-            #     data += "\n" + str(problem_number) + "\n"
-            #
-            #     print()
-            #     print(problem_number)
-            #     print()
-            #     problem_number += 1
-            #     option_number = 0xe291a0
-            #
-            #     print("==========영한치환==========")
-            #
-            #     for sentence in problem.getsentences():
-            #
-            #         # 문항 번호 출력
-            #         data += bytes.fromhex(str(hex(option_number)[2:])).decode('utf-8') + "\n"
-            #
-            #         print(bytes.fromhex(str(hex(option_number)[2:])).decode('utf-8'))
-            #         option_number += 1
-            #
-            #
-            #         phrase = sentence.getphrases()[0]
-            #         eng_phrase = phrase.get_eng_phrase()
-            #         kor_phrase = phrase.get_kor_phrase()
-            #         if len(eng_phrase) == len(kor_phrase):
-            #             index = len(eng_phrase)
-            #             flag = 1
-            #             substituted_sentence = ""
-            #
-            #             for index in range(index):
-            #                 if eng_phrase[index] == "":
-            #                     continue
-            #                 if flag == 1:
-            #                     substituted_sentence += (eng_phrase[index] + " ")
-            #                     flag = 0
-            #                 else:
-            #                     substituted_sentence += (kor_phrase[index] + " ")
-            #                     flag = 1
-            #
-            #             data += substituted_sentence + "\n"
-            #             print(substituted_sentence)
-            #     option_number = 0xe291a0
-            #
-            #
-            #     print("==========한영치환==========")
-            #
-            #     for sentence in problem.getsentences():
-            #
-            #         # 문항 번호 출력
-            #
-            #         data = bytes.fromhex(str(hex(option_number)[2:])).decode('utf-8') + "\n"
-            #         print(bytes.fromhex(str(hex(option_number)[2:])).decode('utf-8'))
-            #         option_number += 1
-            #
-            #         phrase = sentence.getphrases()[0]
-            #         eng_phrase = phrase.get_eng_phrase()
-            #         kor_phrase = phrase.get_kor_phrase()
-            #         if len(eng_phrase) == len(kor_phrase):
-            #             index = len(eng_phrase)
-            #             flag = 1
-            #             substituted_sentence = ""
-            #
-            #             for index in range(index):
-            #                 if flag == 1:
-            #                     substituted_sentence += (kor_phrase[index] + " ")
-            #                     flag = 0
-            #                 else:
-            #                     substituted_sentence += (eng_phrase[index] + " ")
-            #                     flag = 1
-            #             data += substituted_sentence + "\n"
-            #             print(substituted_sentence)
-            #     option_number = 0xe291a0
+
         else:
             pass
