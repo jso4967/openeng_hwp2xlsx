@@ -157,28 +157,23 @@ def convert_for_kor2eng(path = None):
     return current_problem_set
 
 def make_string(problem_set):
-    data = ""
+    data_eng_kor = ""
+    data_kor_eng = ""
     problem_number = 1
     for problem in problem_set:
 
         # 문제 번호 출력
-        data += "\n" + str(problem_number) + "\n"
+        data_eng_kor += "\n" + str(problem_number) + "\n"
+        data_kor_eng += "\n" + str(problem_number) + "\n"
 
-        # print()
-        # print(problem_number)
-        # print()
         problem_number += 1
         option_number = 0xe291a0
-
-        # print("==========영한치환==========")
-        data += "==========영한치환==========" + "\n"
-
+        flag = 1
         for sentence in problem.getsentences():
 
             # 문항 번호 출력
-            data += bytes.fromhex(str(hex(option_number)[2:])).decode('utf-8') + "\n"
-
-            # print(bytes.fromhex(str(hex(option_number)[2:])).decode('utf-8'))
+            data_eng_kor += bytes.fromhex(str(hex(option_number)[2:])).decode('utf-8') + " "
+            data_kor_eng += bytes.fromhex(str(hex(option_number)[2:])).decode('utf-8') + " "
             option_number += 1
 
             if sentence.getphrases():
@@ -187,77 +182,57 @@ def make_string(problem_set):
                 kor_phrase = phrase.get_kor_phrase()
                 if len(eng_phrase) == len(kor_phrase):
                     index = len(eng_phrase)
-                    flag = 1
-                    substituted_sentence = ""
+                    substituted_sentence_eng_kor = ""
+                    substituted_sentence_kor_eng = ""
 
                     for index in range(index):
                         if eng_phrase[index] == "":
                             continue
                         if flag == 1:
-                            substituted_sentence += (eng_phrase[index] + " ")
+                            substituted_sentence_eng_kor += (eng_phrase[index] + " ")
+                            substituted_sentence_kor_eng += (kor_phrase[index] + " ")
                             flag = 0
                         else:
-                            substituted_sentence += (kor_phrase[index] + " ")
+                            substituted_sentence_eng_kor += (kor_phrase[index] + " ")
+                            substituted_sentence_kor_eng += (eng_phrase[index] + " ")
                             flag = 1
 
-                    data += substituted_sentence + "\n"
+                    data_eng_kor += substituted_sentence_eng_kor + "\n"
+                    data_kor_eng += substituted_sentence_kor_eng + "\n"
+            flag = (option_number + 1) % 2
 
-                # print(substituted_sentence)
         option_number = 0xe291a0
 
-        data += "==========한영치환==========" + "\n"
-        # print("==========한영치환==========")
+    return data_eng_kor, data_kor_eng
 
-        for sentence in problem.getsentences():
-
-            # 문항 번호 출력
-
-            data += bytes.fromhex(str(hex(option_number)[2:])).decode('utf-8') + "\n"
-            # print(bytes.fromhex(str(hex(option_number)[2:])).decode('utf-8'))
-            option_number += 1
-            if sentence.getphrases():
-                phrase = sentence.getphrases()[0]
-                eng_phrase = phrase.get_eng_phrase()
-                kor_phrase = phrase.get_kor_phrase()
-                if len(eng_phrase) == len(kor_phrase):
-                    index = len(eng_phrase)
-                    flag = 1
-                    substituted_sentence = ""
-
-                    for index in range(index):
-                        if flag == 1:
-                            substituted_sentence += (kor_phrase[index] + " ")
-                            flag = 0
-                        else:
-                            substituted_sentence += (eng_phrase[index] + " ")
-                            flag = 1
-                    data += substituted_sentence + "\n"
-
-                # print(substituted_sentence)
-        option_number = 0xe291a0
-
-    return data
-
-def make_final_file(data, path):
+def make_final_file(data1, data2, path):
     # 파일 세팅
-    path = path[:path.find('.')] + "영환치환버전.docx"
+    path1 = path[:path.find('.')] + "영한치환버전.docx"
+    path2 = path[:path.find('.')] + "한영치환버전.docx"
+
+    # docx 파일로 만들기
+
     document = Document()
 
-    document.add_paragraph(data)
-    document.save(path)
-    # ctypes.windll.Shell32.ShellExecuteW(None, 'open', __path, None, None, 1)
-    # time.sleep(3)
+    document.add_paragraph(data1)
+    document.save(path1)
+
+    document = Document()
+
+    document.add_paragraph(data2)
+    document.save(path2)
+
+    # 텍스트 파일로 만들기
+
+    # print(path1, path2)
     #
-    # # 파일 새로 만들기
-    # pyautogui.hotkey('alt', 'n')
-    # pyautogui.typewrite(data)
+    # file = open(path1, 'w')
+    # file.write(data1)
     #
-    # # 파일 저장
-    # pyautogui.hotkey('alt', 's')
-    # __path = __path[:__path.find('.')+1] + '영한치환버전' + '.hwp'
-    # pyautogui.typewrite(__path)
-    # pyautogui.hotkey('alt', 'd')
+    # file.close()
     #
-    # # 프로그램 종료
-    # pyautogui.hotkey('alt', 'f4')
-    # time.sleep(3)
+    # file = open(path2, 'w')
+    # file.write(data2)
+    #
+    # file.close()
+

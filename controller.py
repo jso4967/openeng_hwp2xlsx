@@ -31,9 +31,10 @@ def button_pressed(self, targetToUpdate, value, mode):
             problem_set = model_core.convert_for_kor2eng(path)
 
             # 파일에 데이터 입력
-            data = model_core.make_string(problem_set)
-            print(data)
-            model_core.make_final_file(data, path)
+            data_eng_kor, data_kor_eng = model_core.make_string(problem_set)
+            print(data_eng_kor)
+            print(data_kor_eng)
+            model_core.make_final_file(data_eng_kor, data_kor_eng, path)
 
 
         else:

@@ -12,7 +12,7 @@ class MyFrame(Frame):
         self.pack(fill=BOTH, expand=True)
 
         #TODOLIST : 사진 처럼 다듬기
-        photo = PhotoImage(file="./pictures/left_logo.png")
+        photo = PhotoImage(file="left_logo.png")
         lbpng = Label(self, image=photo)
         lbpng.image = photo
         lbpng.pack()
