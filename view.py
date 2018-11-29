@@ -65,7 +65,7 @@ class MyFrame(Frame):
 
         # 변환
         framecontrol = Frame(self)
-        btnConvert = Button(framecontrol, text="Convert", command=lambda:controller.button_pressed(self, entryFileToConvert, "Convert", comboModeChoice.get(), entryFolderToSave))
+        btnConvert = Button(framecontrol, text="Convert", command=lambda:controller.button_pressed(self, entryFileToConvert, "Convert", comboModeChoice.get()))
         btnConvert.pack(side=RIGHT, padx=10)
         btnCancel = Button(framecontrol, text="Cancel", command=lambda:Frame.quit(self))
         btnCancel.pack(side=RIGHT, padx=10)
