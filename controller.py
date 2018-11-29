@@ -5,7 +5,7 @@ import model, model_core
 
 # 라벨의 값을 마음대로 제어 할 수 있는 방안을 찾아야 함.
 
-def button_pressed(self, targetToUpdate, value, mode):
+def button_pressed(self, targetToUpdate, value, mode, targetToUpdate2=None):
     print(value, "pressed")
     if value == "FileBrowse":
         fileName = filedialog.askopenfilename()
@@ -23,7 +23,6 @@ def button_pressed(self, targetToUpdate, value, mode):
         if mode == "KOR2ENG":
 
             # 파일 형식 변환
-            print("test into controller.py")
             path = targetToUpdate.get()
             model.convertfile(path)
 
@@ -36,14 +35,12 @@ def button_pressed(self, targetToUpdate, value, mode):
             print(data_eng_kor)
             print(data_kor_eng)
 
-            model_core.make_final_file(data_eng_kor, data_kor_eng, path)
-
-            # if targetToUpdate2.get():
-            #     model_core.make_final_file(data_eng_kor, data_kor_eng, path, targetToUpdate2.get())
-            # else:
-            #     output_path = targetToUpdate.get()
-            #     output_path = output_path[:output_path.rfind('/')]
-            #     model_core.make_final_file(data_eng_kor, data_kor_eng, path, output_path)
+            if targetToUpdate2.get():
+                model_core.make_final_file(data_eng_kor, data_kor_eng, path, targetToUpdate2.get())
+            else:
+                output_path = targetToUpdate.get()
+                output_path = output_path[:output_path.rfind('/')]
+                model_core.make_final_file(data_eng_kor, data_kor_eng, path, output_path)
 
         else:
             pass

@@ -205,14 +205,10 @@ def make_string(problem_set):
 
     return data_eng_kor, data_kor_eng
 
-def make_final_file(data1, data2, input_path, output_path = None):
+def make_final_file(data1, data2, input_path, output_path):
     # 파일 세팅
-
-    path1 = input_path[:input_path.find('.')] + "영한치환버전.docx"
-    path2 = input_path[:input_path.find('.')] + "한영치환버전.docx"
-
-    # path1 = output_path  + input_path[input_path.rfind('/'):input_path.find('.')] + "_영한치환버전.docx"
-    # path2 = output_path  + input_path[input_path.rfind('/'):input_path.find('.')] + "_한영치환버전.docx"
+    path1 = output_path  + input_path[input_path.rfind('/'):input_path.find('.')] + "_영한치환버전.docx"
+    path2 = output_path  + input_path[input_path.rfind('/'):input_path.find('.')] + "_한영치환버전.docx"
 
     # docx 파일로 만들기
 
