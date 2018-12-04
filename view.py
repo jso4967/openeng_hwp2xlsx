@@ -75,7 +75,7 @@ class MyFrame(Frame):
 def main():
     root = Tk()
     root.geometry("400x350+1200+100")
-    root.resizable(False, False)
+    root.resizable(False, True)
     app = MyFrame(root)
     root.mainloop()
 

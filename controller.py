@@ -1,14 +1,26 @@
 import view
 from tkinter import filedialog
 import tkinter as tk
-import model, model_core
+import model, model_core, os
 
-# 라벨의 값을 마음대로 제어 할 수 있는 방안을 찾아야 함.
-
+class fileErrorEx(BaseException):pass
 def button_pressed(self, targetToUpdate, value, mode, targetToUpdate2=None):
     print(value, "pressed")
     if value == "FileBrowse":
         fileName = filedialog.askopenfilename()
+
+        # 중복 파일 존재 여부 확인
+        dirname = fileName[:fileName.rfind('/')]
+        print(dirname)
+        filenames = os.listdir(dirname)
+        for filename in filenames:
+            test = fileName[fileName.rfind('/') + 1:fileName.find('.') + 1] + "docx"
+            if filename == test:
+                print("Error 입력파일 이름 중복 해당 이름의 docx 파일을 지우거나 새로운 이름으로 바꿔서 재시도 해주세요")
+                print("===========================")
+                targetToUpdate.delete("0", tk.END)
+                raise fileErrorEx
+
         targetToUpdate.delete("0", tk.END)
         targetToUpdate.insert("end", fileName)
 

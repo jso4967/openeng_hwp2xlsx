@@ -23,6 +23,9 @@ def convertfile(path):
     print(4, datetime.now())
 
     # 파일 형식 지정하기2
+    for i in range(20):
+        pyautogui.hotkey('up')
+
     pyautogui.hotkey('down')
     pyautogui.hotkey('down')
     pyautogui.hotkey('down')
